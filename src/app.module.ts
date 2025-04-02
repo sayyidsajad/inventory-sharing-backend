@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './config/database.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
-import { InventorySharingModule } from './modules/sharing/inventory-sharing.module';
+import { InventorySharingModule } from './modules/inventory-sharing/inventory-sharing.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { InventorySharingModule } from './modules/sharing/inventory-sharing.modu
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
+        uri: configService.get<string>('MONGO_URI'),
       }),
       inject: [ConfigService],
     }),

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { InventorySharingService } from './inventory-sharing.service';
+import { InventorySharingController } from './inventory-sharing.controller';
 import {
   InventorySharing,
   InventorySharingSchema,
 } from './schemas/inventory-sharing.schema';
-import { InventorySharingController } from './inventory-sharing.controller';
-import { InventorySharingService } from './inventory-sharing.service';
 
 @Module({
   imports: [

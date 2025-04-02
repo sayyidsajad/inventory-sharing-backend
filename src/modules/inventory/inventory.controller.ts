@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Query } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -15,14 +15,36 @@ export class InventoryController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all inventory items' })
-  async findAll() {
-    return this.inventoryService.findAll();
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get inventory item by ID' })
-  async findOne(@Param('id') id: string) {
-    return this.inventoryService.findOne(id);
+  @ApiOperation({
+    summary: 'Get all inventory items with filtering, pagination, and counts',
+  })
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 50,
+    @Query('search') search?: string,
+    @Query('categoryOperator') categoryOperator?: string,
+    @Query('categoryValues') categoryValues?: string,
+    @Query('manufacturerOperator') manufacturerOperator?: string,
+    @Query('manufacturerValues') manufacturerValues?: string,
+    @Query('expiryOperator') expiryOperator?: string,
+    @Query('expiryValues') expiryValues?: string,
+    @Query('status') status?: string,
+    @Query('organization') organization?: string,
+    @Query('fields') fields?: string,
+  ) {
+    return this.inventoryService.findAll({
+      page,
+      limit,
+      search,
+      categoryOperator,
+      categoryValues,
+      manufacturerOperator,
+      manufacturerValues,
+      expiryOperator,
+      expiryValues,
+      status,
+      organization,
+      fields,
+    });
   }
 }
