@@ -179,4 +179,4 @@ This system provides comprehensive management of fire department equipment, incl
 - Inter-department equipment sharing
 - Detailed equipment specifications and documentation
 
-![Fire Department Inventory Model Diagram](https://raw.githubusercontent.com/sayyidsajad/inventory-sharing-backend/main/public/assets/inventory-model.svg)
+![Fire Department Inventory Model Diagram](https://raw.githubusercontent.com/sayyidsajad/inventory-sharing-backend/main/public/assets/inventory-model.png)
