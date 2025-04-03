@@ -5,6 +5,7 @@ import { DatabaseModule } from './config/database.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { InventorySharingModule } from './modules/inventory-sharing/inventory-sharing.module';
 import { UserModule } from './modules/user/user.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './modules/user/user.module';
     InventoryModule,
     InventorySharingModule,
     UserModule,
+    SettingsModule,
   ],
 })
 export class AppModule {}
