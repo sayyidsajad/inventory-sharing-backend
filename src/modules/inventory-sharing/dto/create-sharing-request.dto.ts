@@ -1,38 +1,89 @@
-import { IsString, IsNumber, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsArray,
+} from 'class-validator';
 
-export class CreateInventorySharingDto {
-  @ApiProperty({ example: 'supplier123', description: 'ID of the supplier' })
-  @IsString()
-  supplierId: string;
-
-  @ApiProperty({ example: 'buyer456', description: 'ID of the buyer' })
-  @IsString()
-  buyerId: string;
-
+export class RequestShareDto {
   @ApiProperty({
-    example: 'item789',
-    description: 'ID of the item being shared',
+    example: '60d0fe4f5311236168a109ca',
+    description: 'ID of the user sharing inventory',
   })
   @IsString()
-  itemId: string;
+  @IsNotEmpty()
+  sharedBy: string;
 
   @ApiProperty({
-    example: 100,
-    description: 'Quantity of the item being shared',
+    example: ['60d0fe4f5311236168a109cb'],
+    description: 'IDs of users receiving inventory',
+    isArray: true,
   })
-  @IsNumber()
-  quantity: number;
+  @IsArray()
+  @IsNotEmpty()
+  sharedWith: string[];
 
-  @ApiProperty({ example: 20.5, description: 'Price per unit of the item' })
-  @IsNumber()
-  pricePerUnit: number;
+  @ApiProperty({ example: 'Fire Department', description: 'Organization Name' })
+  @IsString()
+  @IsOptional()
+  organizationName?: string;
 
   @ApiProperty({
-    example: 'pending',
-    enum: ['pending', 'accepted', 'rejected'],
-    description: 'Sharing status',
+    example: '123 Main St, City, Country',
+    description: 'Address',
   })
-  @IsEnum(['pending', 'accepted', 'rejected'])
-  status: string;
+  @IsString()
+  @IsOptional()
+  address?: string;
+
+  @ApiProperty({
+    example: 'Inventory Sharing Request',
+    description: 'Subject of the sharing request',
+  })
+  @IsString()
+  @IsOptional()
+  subject?: string;
+
+  @ApiProperty({
+    example: 'Please review the shared inventory details.',
+    description: 'Email body content',
+  })
+  @IsString()
+  @IsOptional()
+  emailBody?: string;
+
+  @ApiProperty({ example: true, description: 'Is mutual sharing allowed?' })
+  @IsBoolean()
+  @IsOptional()
+  mutualSharing?: boolean;
+}
+
+export class ApproveShareDto {
+  @ApiProperty({
+    example: '60d0fe4f5311236168a109cd',
+    description: 'ID of the user approving the request',
+  })
+  @IsString()
+  @IsNotEmpty()
+  approvedBy: string;
+
+  @ApiProperty({
+    example: 'Request approved successfully.',
+    description: 'Approval message',
+  })
+  @IsString()
+  @IsOptional()
+  message?: string;
+}
+
+export class RejectShareDto {
+  @ApiProperty({
+    example: 'Request rejected due to policy.',
+    description: 'Rejection reason',
+  })
+  @IsString()
+  @IsNotEmpty()
+  message: string;
 }

@@ -1,6 +1,5 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Module, OnApplicationShutdown, OnModuleDestroy } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './config/database.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { InventorySharingModule } from './modules/inventory-sharing/inventory-sharing.module';
@@ -11,17 +10,18 @@ import { SettingsModule } from './modules/settings/settings.module';
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'),
-      }),
-      inject: [ConfigService],
-    }),
     InventoryModule,
     InventorySharingModule,
     UserModule,
     SettingsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleDestroy, OnApplicationShutdown {
+  onModuleDestroy() {
+    console.log('Cleaning up before module is destroyed...');
+  }
+
+  onApplicationShutdown() {
+    console.log('Application is shutting down...');
+  }
+}

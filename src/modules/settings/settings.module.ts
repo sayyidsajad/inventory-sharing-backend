@@ -8,6 +8,14 @@ import {
 } from './schemas/organization.schema';
 import { Site, SiteSchema } from './schemas/site.schema';
 import { Attribute, AttributeSchema } from './schemas/attribute.schema';
+import {
+  InventoryType,
+  InventoryTypeSchema,
+} from './schemas/inventory-type.schema';
+import {
+  InventoryView,
+  InventoryViewSchema,
+} from './schemas/inventory-view.schema';
 
 @Module({
   imports: [
@@ -15,6 +23,8 @@ import { Attribute, AttributeSchema } from './schemas/attribute.schema';
       { name: Organization.name, schema: OrganizationSchema },
       { name: Site.name, schema: SiteSchema },
       { name: Attribute.name, schema: AttributeSchema },
+      { name: InventoryType.name, schema: InventoryTypeSchema },
+      { name: InventoryView.name, schema: InventoryViewSchema },
     ]),
   ],
   controllers: [SettingsController],
