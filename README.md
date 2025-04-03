@@ -1,3 +1,97 @@
+# Fire Department Inventory Management System
+
+## Conceptual Data Model
+
+### Core Entities
+
+1. **Inventory**
+
+   - Primary Entity: Equipment and supplies used by fire departments
+   - **Primary Key**: equipId
+   - **Required Attributes**: name, type, category, status
+   - **Optional Attributes**: description, skuMpn, modelNumber, serialNumber, sensors, depreciation data
+   - **Financial Attributes**: purchasePrice, acquisitionDate, insuranceCoverage, warrantyExpiryDate
+   - **Maintenance Attributes**: schedule, lastMaintenanceDate, nextMaintenanceDate
+
+2. **Location**
+
+   - Hierarchical storage location information
+   - **Primary Key**: \_id
+   - **Required Attributes**: siteStationName
+   - **Optional Attributes**: roomFireTruck, aisle, rack, shelfLevel, bin
+   - Represents both buildings and vehicles
+
+3. **Manufacturer**
+
+   - Companies that produce equipment
+   - **Primary Key**: \_id
+   - **Required Attributes**: name
+   - **Optional Attributes**: contactEmail, phoneNumber
+
+4. **Supplier**
+
+   - Businesses that sell equipment
+   - **Primary Key**: \_id
+   - **Required Attributes**: name
+   - **Optional Attributes**: address, contactPerson, phoneNumber
+
+5. **User**
+
+   - System users who manage inventory
+   - **Primary Key**: \_id
+   - **Required Attributes**: name, email
+   - **Optional Attributes**: role (admin/user), organization
+
+6. **InventorySharing**
+   - Mechanism for sharing inventory between users/departments
+   - **Primary Key**: \_id
+   - **Required Attributes**: sharedBy, sharedWith, status
+   - **Optional Attributes**: organizationName, address, subject, emailBody, approvedBy, approvedOn, message
+
+### Key Relationships
+
+- **Inventory → Manufacturer**: Many-to-One (Required)
+
+  - Each inventory item is produced by exactly one manufacturer
+
+- **Inventory → Supplier**: Many-to-One (Optional)
+
+  - Each inventory item may be supplied by one supplier
+
+- **Inventory → Location**: Many-to-One (Required)
+
+  - Each inventory item is stored at exactly one location
+
+- **Inventory → Inventory**: Many-to-Many (Self-relationship)
+
+  - Inventory items can be associated with other inventory items
+  - Implements through associatedItems array reference
+
+- **User → InventorySharing → User**: Many-to-Many
+  - Users can share inventory information with other users
+  - Implements through the InventorySharing entity
+
+### Business Rules
+
+1. Equipment IDs (equipId) must be unique across all inventory
+2. Tag IDs (tagId) must be unique when provided
+3. Inventory status is restricted to: Available, Out of Stock, Under Maintenance
+4. Inventory sharing requires a request/approval workflow
+5. All entities track creation and update timestamps
+6. Depreciation calculations follow standard financial rules
+
+### System Purpose
+
+This system provides comprehensive management of fire department equipment, including:
+
+- Asset tracking across multiple locations
+- Maintenance scheduling and history
+- Depreciation and financial management
+- Inter-department equipment sharing
+- Detailed equipment specifications and documentation
+
+![Fire Department Inventory Model Diagram](https://raw.githubusercontent.com/sayyidsajad/inventory-sharing-backend/main/public/assets/inventory-model.png)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -96,87 +190,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-
-
-# Fire Department Inventory Management System
-## Conceptual Data Model
-
-### Core Entities
-
-1. **Inventory**
-   - Primary Entity: Equipment and supplies used by fire departments
-   - **Primary Key**: equipId
-   - **Required Attributes**: name, type, category, status
-   - **Optional Attributes**: description, skuMpn, modelNumber, serialNumber, sensors, depreciation data
-   - **Financial Attributes**: purchasePrice, acquisitionDate, insuranceCoverage, warrantyExpiryDate
-   - **Maintenance Attributes**: schedule, lastMaintenanceDate, nextMaintenanceDate
-
-2. **Location**
-   - Hierarchical storage location information
-   - **Primary Key**: _id
-   - **Required Attributes**: siteStationName
-   - **Optional Attributes**: roomFireTruck, aisle, rack, shelfLevel, bin
-   - Represents both buildings and vehicles
-
-3. **Manufacturer**
-   - Companies that produce equipment
-   - **Primary Key**: _id
-   - **Required Attributes**: name
-   - **Optional Attributes**: contactEmail, phoneNumber
-
-4. **Supplier**
-   - Businesses that sell equipment
-   - **Primary Key**: _id
-   - **Required Attributes**: name
-   - **Optional Attributes**: address, contactPerson, phoneNumber
-
-5. **User**
-   - System users who manage inventory
-   - **Primary Key**: _id
-   - **Required Attributes**: name, email
-   - **Optional Attributes**: role (admin/user), organization
-
-6. **InventorySharing**
-   - Mechanism for sharing inventory between users/departments
-   - **Primary Key**: _id
-   - **Required Attributes**: sharedBy, sharedWith, status
-   - **Optional Attributes**: organizationName, address, subject, emailBody, approvedBy, approvedOn, message
-
-### Key Relationships
-
-- **Inventory → Manufacturer**: Many-to-One (Required)
-  - Each inventory item is produced by exactly one manufacturer
-
-- **Inventory → Supplier**: Many-to-One (Optional)
-  - Each inventory item may be supplied by one supplier
-
-- **Inventory → Location**: Many-to-One (Required)
-  - Each inventory item is stored at exactly one location
-
-- **Inventory → Inventory**: Many-to-Many (Self-relationship)
-  - Inventory items can be associated with other inventory items
-  - Implements through associatedItems array reference
-
-- **User → InventorySharing → User**: Many-to-Many
-  - Users can share inventory information with other users
-  - Implements through the InventorySharing entity
-
-### Business Rules
-
-1. Equipment IDs (equipId) must be unique across all inventory
-2. Tag IDs (tagId) must be unique when provided
-3. Inventory status is restricted to: Available, Out of Stock, Under Maintenance
-4. Inventory sharing requires a request/approval workflow
-5. All entities track creation and update timestamps
-6. Depreciation calculations follow standard financial rules
-
-### System Purpose
-
-This system provides comprehensive management of fire department equipment, including:
-- Asset tracking across multiple locations
-- Maintenance scheduling and history
-- Depreciation and financial management
-- Inter-department equipment sharing
-- Detailed equipment specifications and documentation
-
-![Fire Department Inventory Model Diagram](https://raw.githubusercontent.com/sayyidsajad/inventory-sharing-backend/main/public/assets/inventory-model.png)
