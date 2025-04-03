@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet';
 import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
@@ -11,8 +10,6 @@ async function bootstrap() {
   });
 
   const port = 3000;
-
-  app.use(helmet());
 
   app.enableCors({
     origin: '*',

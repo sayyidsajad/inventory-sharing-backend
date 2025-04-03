@@ -31,7 +31,11 @@ export class InventorySharingController {
       type: 'object',
       properties: {
         sharedBy: { type: 'string', example: '60d0fe4f5311236168a109ca' },
-        sharedWith: { type: 'string', example: '60d0fe4f5311236168a109cb' },
+        sharedWith: {
+          type: 'array',
+          items: { type: 'string' },
+          example: ['60d0fe4f5311236168a109cb'],
+        },
         organizationName: { type: 'string', example: 'Fire Department' },
         address: { type: 'string', example: '123 Main St, City, Country' },
         subject: { type: 'string', example: 'Inventory Sharing Request' },

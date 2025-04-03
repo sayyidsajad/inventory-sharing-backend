@@ -36,7 +36,7 @@ export class InventoryController {
   @ApiQuery({
     name: 'manufacturerValues',
     required: false,
-    example: 'Sony,Samsung',
+    example: '60d0fe4f5311236168a109ca',
   })
   @ApiQuery({ name: 'expiryOperator', required: false, example: 'greaterThan' })
   @ApiQuery({ name: 'expiryValues', required: false, example: '2025-01-01' })
