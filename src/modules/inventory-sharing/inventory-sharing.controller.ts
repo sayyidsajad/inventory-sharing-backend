@@ -15,8 +15,18 @@ export class InventorySharingController {
 
   @Put(':id/approve')
   @ApiOperation({ summary: 'Approve a sharing request' })
-  async approveShare(@Param('id') id: string) {
-    return this.sharingService.approveShare(id);
+  async approveShare(
+    @Param('id') id: string,
+    @Body('approvedBy') approvedBy: string,
+    @Body('message') message: string,
+  ) {
+    return this.sharingService.approveShare(id, approvedBy, message);
+  }
+
+  @Put(':id/reject')
+  @ApiOperation({ summary: 'Reject a sharing request' })
+  async rejectShare(@Param('id') id: string, @Body('message') message: string) {
+    return this.sharingService.rejectShare(id, message);
   }
 
   @Get('shared-with/:userId')
@@ -34,11 +44,5 @@ export class InventorySharingController {
   @ApiOperation({ summary: 'Get inventory shared by a user' })
   async getSharedBy(@Param('userId') userId: string) {
     return this.sharingService.getSharedBy(userId);
-  }
-
-  @Put(':id/reject')
-  @ApiOperation({ summary: 'Reject a sharing request' })
-  async rejectShare(@Param('id') id: string) {
-    return this.sharingService.rejectShare(id);
   }
 }

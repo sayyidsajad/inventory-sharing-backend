@@ -67,10 +67,11 @@ export class InventoryService {
         case 'lessThan':
           query[expiryField] = { $lt: new Date(expiryValues) };
           break;
-        case 'between':
+        case 'between': {
           const [start, end] = expiryValues.split(',');
           query[expiryField] = { $gte: new Date(start), $lte: new Date(end) };
           break;
+        }
         case 'notIn':
           query[expiryField] = {
             $nin: expiryValues.split(',').map((d) => new Date(d)),
@@ -81,7 +82,6 @@ export class InventoryService {
 
     const selectedFields = fields ? fields.split(',').join(' ') : '';
 
-    // Fetch paginated data
     const data = await this.inventoryModel
       .find(query)
       .select(selectedFields)
@@ -89,7 +89,6 @@ export class InventoryService {
       .limit(limit)
       .exec();
 
-    // Reorder fields based on user preference
     const orderedData = data.map((item) => {
       const reorderedItem = {};
       if (fields) {

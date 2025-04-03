@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './config/database.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { InventorySharingModule } from './modules/inventory-sharing/inventory-sharing.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { InventorySharingModule } from './modules/inventory-sharing/inventory-sh
     }),
     InventoryModule,
     InventorySharingModule,
+    UserModule,
   ],
 })
 export class AppModule {}

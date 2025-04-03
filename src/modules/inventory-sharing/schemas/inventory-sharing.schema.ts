@@ -1,27 +1,47 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-
-export type InventorySharingDocument = InventorySharing & Document;
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class InventorySharing {
-  @Prop({ required: true })
-  supplierId: string;
+export class InventorySharing extends Document {
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
+  sharedBy: MongooseSchema.Types.ObjectId;
 
-  @Prop({ required: true })
-  buyerId: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
+  sharedWith: MongooseSchema.Types.ObjectId;
 
-  @Prop({ required: true })
-  itemId: string;
+  @Prop()
+  organizationName?: string;
 
-  @Prop({ required: true })
-  quantity: number;
+  @Prop()
+  address?: string;
 
-  @Prop({ required: true })
-  pricePerUnit: number;
+  @Prop()
+  subject?: string;
 
-  @Prop({ enum: ['pending', 'accepted', 'rejected'], default: 'pending' })
+  @Prop()
+  emailBody?: string;
+
+  @Prop({ default: false })
+  mutualSharing?: boolean;
+
+  @Prop({
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending',
+  })
   status: string;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  approvedBy?: MongooseSchema.Types.ObjectId;
+
+  @Prop()
+  approvedOn?: Date;
+
+  @Prop()
+  message?: string;
+
+  @Prop()
+  createdAt?: string;
 }
 
 export const InventorySharingSchema =
